@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 # New code copyright Helen Foster and Arthur Milchior <Arthur@Milchior.fr>
-# Some idea by Juda Kaleta <juda.kaleta@gmail.com>
 # Github: https://github.com/HelenFoster/AnkiAddons
 # Original code from Anki, copyright Damien Elmes <anki@ichi2.net>
 # License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
@@ -153,7 +152,9 @@ class DeckNode:
                 self.lrnSoonest = min(self.lrnSoonest, child.lrnSoonest)
             self.isEmpty = self.isEmpty and child.isEmpty
             self.hasEmptyDescendant = self.hasEmptyDescendant or child.hasEmptyDescendant or child.isEmpty
-        if self.isEmpty:
+        if hide_symbol in self.name:
+            self.color = default_color
+        elif self.isEmpty:
             self.color= color_empty
         elif self.hasEmptyDescendant:
             self.color = color_empty_descendant
@@ -202,7 +203,7 @@ class DeckNode:
         buf += """
     
         <td class=decktd colspan=5>%s%s<a class="deck %s" href='open:%d'><font color='%s'>%s</font></a></td>"""% (
-            indent(), collapse, extraclass, did, self.color,node.name)
+            indent(), collapse, extraclass, did, node.color,node.name)
 
         
         def cap(n):
